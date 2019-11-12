@@ -1,5 +1,6 @@
 const Math = require('mathjs');
 const BigNumber = require('bignumber.js');
+const ethUtils = require("ethereumjs-util");
 
 module.exports.isRevertErrorMessage = function( error ) {
     if( error.message.search('invalid opcode') >= 0 ) return true;
@@ -8,27 +9,6 @@ module.exports.isRevertErrorMessage = function( error ) {
     return false;
 };
 
-module.exports.expectThrow = async function (promise, message) {
-    try {
-        await promise;
-    } catch (error) {
-        // Message is an optional parameter here
-        if (message) {
-            assert(
-                error.message.search(message) >= 0,
-                'Expected \'' + message + '\', got \'' + error + '\' instead',
-            );
-            return;
-        } else {
-            assert(
-                this.isRevertErrorMessage(error),
-                'Expected throw, got \'' + error + '\' instead'
-            );
-            return;
-        }
-    }
-    assert.fail('Expected throw not received');
-}
 
 module.exports.sendEtherWithPromise = function( sender, recv, amount ) {
     return new Promise(function(fulfill, reject){
@@ -74,6 +54,7 @@ function toHexString(byteArray) {
     return ('0' + (byte & 0xFF).toString(16)).slice(-2);
   }).join('')
 };
+
 
 module.exports.sendPromise = function(method, params) {
     return new Promise(function(fulfill, reject){
@@ -147,3 +128,7 @@ module.exports.assertAbsDiff = function(val1, val2, expectedDiffInPct, errorStr)
            " result diff is " + absDiff(val1, val2).toString(10) +
            " actual result diff in percents is " + absDiffInPercent(val1,val2).toString(10));
 }
+
+module.exports.getHint = function () {
+    return ethUtils.toBuffer('0x');
+  }

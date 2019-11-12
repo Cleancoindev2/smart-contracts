@@ -1,10 +1,15 @@
-usePlugin("@nomiclabs/buidler-truffle4");
-usePlugin("@nomiclabs/buidler-web3-legacy");
+usePlugin("@nomiclabs/buidler-truffle5");
+usePlugin("@nomiclabs/buidler-web3");
 
 module.exports = {
-  defaultNetwork: "develop",
+  defaultNetwork: "buidlerevm",
 
   networks: {
+    buidlerevm: {
+      hardfork: "istanbul",
+      timeout: 20000
+    },
+
     develop: {
       url: "http://127.0.0.1:8545",
       gas: 6000000,
