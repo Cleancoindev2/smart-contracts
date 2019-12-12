@@ -1196,3 +1196,13 @@ function getExtraBpsForImbalanceSellQuantity(qty) {
     }
     return (imbalanceSellStepY[imbalanceSellStepY.length - 1]);
 };
+
+function addBps (rate, bps) {
+    return (rate.mul(10000 + bps).div(10000));
+};
+
+function compareRates (receivedRate, expectedRate) {
+    expectedRate = expectedRate - (expectedRate % 10);
+    receivedRate = receivedRate - (receivedRate % 10);
+    assert.deepEqual(expectedRate, receivedRate, "different rates");
+};
